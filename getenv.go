@@ -5,6 +5,7 @@ package getenv
 import (
 	"os"
 	"strconv"
+	"strings"
 )
 
 func Getenv(varname, defvalue string) string {
@@ -30,4 +31,18 @@ func GetenvInt(varname string, defvalue int) (int, error) {
 	}
 
 	return int(v), nil
+}
+
+func GetenvBool(varname string, defvalue bool) bool {
+	env := os.Getenv(varname)
+
+	if env == "" {
+		return defvalue
+	}
+
+	if strings.ToLower(env) == "true" {
+		return true
+	}
+
+	return false
 }
