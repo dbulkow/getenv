@@ -1,4 +1,4 @@
-/* Copyright (c) 2018 David Bulkow */
+/* Copyright (c) 2019 David Bulkow */
 
 package getenv
 
@@ -18,19 +18,19 @@ func Getenv(varname, defvalue string) string {
 	return env
 }
 
-func GetenvInt(varname string, defvalue int) (int, error) {
+func GetenvInt(varname string, defvalue int) int {
 	env := os.Getenv(varname)
 
 	if env == "" {
-		return defvalue, nil
+		return defvalue
 	}
 
 	v, err := strconv.Atoi(env)
 	if err != nil {
-		return 0, err
+		return defvalue
 	}
 
-	return int(v), nil
+	return int(v)
 }
 
 func GetenvBool(varname string, defvalue bool) bool {
