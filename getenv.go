@@ -8,8 +8,23 @@ import (
 	"strings"
 )
 
-func Getenv(varname, defvalue string) string {
-	env := os.Getenv(varname)
+type Env struct {
+	prefix string
+}
+
+func NewEnv(prefix string) *Env {
+	return &Env{prefix: prefix}
+}
+
+func (e *Env) varname(suffix string) string {
+	if e.prefix == "" {
+		return suffix
+	}
+	return strings.Join([]string{e.prefix, suffix}, "_")
+}
+
+func (e *Env) Getenv(suffix, defvalue string) string {
+	env := os.Getenv(e.varname(suffix))
 
 	if env == "" {
 		return defvalue
@@ -18,8 +33,8 @@ func Getenv(varname, defvalue string) string {
 	return env
 }
 
-func GetenvInt(varname string, defvalue int) int {
-	env := os.Getenv(varname)
+func (e *Env) GetenvInt(suffix string, defvalue int) int {
+	env := os.Getenv(e.varname(suffix))
 
 	if env == "" {
 		return defvalue
@@ -33,8 +48,8 @@ func GetenvInt(varname string, defvalue int) int {
 	return int(v)
 }
 
-func GetenvBool(varname string, defvalue bool) bool {
-	env := os.Getenv(varname)
+func (e *Env) GetenvBool(suffix string, defvalue bool) bool {
+	env := os.Getenv(e.varname(suffix))
 
 	if env == "" {
 		return defvalue
@@ -45,4 +60,18 @@ func GetenvBool(varname string, defvalue bool) bool {
 	}
 
 	return false
+}
+
+var defEnv = &Env{}
+
+func Getenv(varname, defvalue string) string {
+	return defEnv.Getenv(varname, defvalue)
+}
+
+func GetenvInt(varname string, defvalue int) int {
+	return defEnv.GetenvInt(varname, defvalue)
+}
+
+func GetenvBool(varname string, defvalue bool) bool {
+	return defEnv.GetenvBool(varname, defvalue)
 }
