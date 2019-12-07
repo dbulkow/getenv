@@ -103,7 +103,7 @@ func TestEnvGetenv(t *testing.T) {
 
 	env := getenv.NewEnv("GETENV")
 
-	value := env.Getenv("TEST_VARIABLE", "somedefault")
+	value := env.Get("TEST_VARIABLE", "somedefault")
 	if value != "somevalue" {
 		t.Fatalf("expected \"somevalue\" got \"%s\"", value)
 	}

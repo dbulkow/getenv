@@ -23,7 +23,7 @@ func (e *Env) varname(suffix string) string {
 	return strings.Join([]string{e.prefix, suffix}, "_")
 }
 
-func (e *Env) Getenv(suffix, defvalue string) string {
+func (e *Env) Get(suffix, defvalue string) string {
 	env := os.Getenv(e.varname(suffix))
 
 	if env == "" {
@@ -33,7 +33,7 @@ func (e *Env) Getenv(suffix, defvalue string) string {
 	return env
 }
 
-func (e *Env) GetenvInt(suffix string, defvalue int) int {
+func (e *Env) GetInt(suffix string, defvalue int) int {
 	env := os.Getenv(e.varname(suffix))
 
 	if env == "" {
@@ -48,7 +48,7 @@ func (e *Env) GetenvInt(suffix string, defvalue int) int {
 	return int(v)
 }
 
-func (e *Env) GetenvBool(suffix string, defvalue bool) bool {
+func (e *Env) GetBool(suffix string, defvalue bool) bool {
 	env := os.Getenv(e.varname(suffix))
 
 	if env == "" {
@@ -65,13 +65,13 @@ func (e *Env) GetenvBool(suffix string, defvalue bool) bool {
 var defEnv = &Env{}
 
 func Getenv(varname, defvalue string) string {
-	return defEnv.Getenv(varname, defvalue)
+	return defEnv.Get(varname, defvalue)
 }
 
 func GetenvInt(varname string, defvalue int) int {
-	return defEnv.GetenvInt(varname, defvalue)
+	return defEnv.GetInt(varname, defvalue)
 }
 
 func GetenvBool(varname string, defvalue bool) bool {
-	return defEnv.GetenvBool(varname, defvalue)
+	return defEnv.GetBool(varname, defvalue)
 }
